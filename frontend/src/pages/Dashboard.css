@@ -1,0 +1,101 @@
+/* Dashboard.css */
+.search-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: hsla(0, 0%, 100%, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  border: 1px solid hsla(0, 0%, 100%, 0.4);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: hsla(220, 25%, 94%, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+  width: 100%;
+  max-width: 36rem;
+  transition: all 0.2s;
+}
+
+.search-input-wrapper:focus-within {
+  border-color: hsla(250, 85%, 60%, 0.5);
+  box-shadow: 0 0 0 4px hsla(250, 85%, 60%, 0.1);
+}
+
+.search-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--foreground);
+}
+
+.search-input::placeholder {
+  color: hsla(220, 15%, 45%, 0.6);
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s;
+}
+
+.filter-button:hover {
+  background: var(--muted);
+  border-color: var(--muted-foreground);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 6rem 0;
+  background: hsla(0, 0%, 100%, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  border: 2px dashed var(--border);
+  animation: enter 0.6s ease forwards;
+}
+
+.empty-state-icon {
+  padding: 1.5rem;
+  background: hsla(220, 25%, 94%, 0.4);
+  border-radius: 9999px;
+  color: var(--muted-foreground);
+}
+
+.empty-state-text {
+  text-align: center;
+}
+
+.empty-state-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.empty-state-description {
+  color: var(--muted-foreground);
+  font-weight: 500;
+  margin-top: 0.25rem;
+}

@@ -1,0 +1,129 @@
+/* Navbar.css */
+.navbar-wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  padding: 1rem 1.5rem;
+  pointer-events: none;
+}
+
+.navbar-content {
+  max-width: 80rem;
+  margin: 0 auto;
+  background: hsla(0, 0%, 100%, 0.7);
+  backdrop-filter: blur(16px);
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+  border: 1px solid hsla(0, 0%, 100%, 0.4);
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.navbar-logo {
+  background: var(--primary);
+  padding: 0.375rem;
+  border-radius: 0.5rem;
+  color: white;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-links-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem;
+  background: hsla(220, 25%, 94%, 0.3);
+  border-radius: 0.75rem;
+}
+
+.navbar-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  color: var(--muted-foreground);
+}
+
+.navbar-link:hover {
+  color: var(--foreground);
+  background: hsla(0, 0%, 100%, 0.5);
+}
+
+.navbar-link.active {
+  background: white;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  color: var(--primary);
+}
+
+.navbar-link-label {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .navbar-link-label { display: inline; }
+}
+
+.navbar-user-section {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.user-info {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+@media (min-width: 768px) {
+  .user-info { display: flex; }
+}
+
+.user-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.user-role {
+  font-size: 10px;
+  color: var(--muted-foreground);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.user-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, var(--primary), #818cf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 2px solid white;
+}

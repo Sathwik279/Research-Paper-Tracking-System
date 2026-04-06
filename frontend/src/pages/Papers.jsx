@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Plus, Search, Trash2, FileText, User, ChevronRight } from 'lucide-react';
 import { paperApi } from '../api';
-import { Plus, FileText, Trash2, User, ChevronRight, Search } from 'lucide-react';
+import './Dashboard.css'; // For common empty states or shared layout
+import './Papers.css';
+import '../styles/Forms.css';
+import '../styles/Layout.css';
 
 const Papers = () => {
   const [papers, setPapers] = useState([]);
@@ -49,12 +53,12 @@ const Papers = () => {
   );
 
   return (
-    <div className="container mx-auto px-6 py-28 flex flex-col gap-10 animate-enter">
-      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div className="flex flex-col gap-3">
+    <div className="container py-28 flex flex-col gap-10 animate-enter">
+      <header className="page-header">
+        <div className="header-content">
           <div className="badge badge-success w-fit">My Manuscripts</div>
-          <h1 className="text-5xl font-bold tracking-tight text-foreground lg:text-6xl">Research <span className="text-primary italic">Papers</span></h1>
-          <p className="text-muted-foreground text-xl max-w-2xl font-medium">Manage your active research projects and submission versions.</p>
+          <h1 className="header-title">Research <span className="text-primary italic">Papers</span></h1>
+          <p className="header-subtitle">Manage your active research projects and submission versions.</p>
         </div>
         <button onClick={() => setShowAdd(true)} className="btn btn-primary rounded-2xl px-8 py-3 text-lg group">
           <Plus size={24} className="group-hover:rotate-90 transition-transform" />
@@ -63,25 +67,25 @@ const Papers = () => {
       </header>
 
       {showAdd && (
-        <div className="glass p-8 rounded-3xl border-primary/20 animate-enter flex flex-col gap-6 shadow-2xl">
-          <div className="flex flex-col gap-1">
-            <h3 className="text-2xl font-bold">Register New Manuscript</h3>
-            <p className="text-sm text-muted-foreground font-medium">Enter the core details of your research work.</p>
+        <div className="form-container animate-enter">
+          <div className="form-header">
+            <h3 className="form-title">Register New Manuscript</h3>
+            <p className="form-subtitle">Enter the core details of your research work.</p>
           </div>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Paper Title</label>
+          <form onSubmit={handleSubmit} className="form-grid">
+            <div className="form-group md:col-span-2">
+              <label className="form-label">Paper Title</label>
               <input required placeholder="E.g., Quantum-enhanced neural networks for edge computing" className="input-field text-lg font-semibold" value={newPaper.title} onChange={e => setNewPaper({...newPaper, title: e.target.value})} />
             </div>
-            <div className="flex flex-col gap-2 md:col-span-2">
-              <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Abstract Highlights</label>
+            <div className="form-group md:col-span-2">
+              <label className="form-label">Abstract Highlights</label>
               <textarea placeholder="Summarize the core methodology and results..." className="input-field h-32 resize-none" value={newPaper.abstractContent} onChange={e => setNewPaper({...newPaper, abstractContent: e.target.value})} />
             </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground ml-1">Authors</label>
+            <div className="form-group">
+              <label className="form-label">Authors</label>
               <input placeholder="Comma separated list" className="input-field" value={newPaper.authors} onChange={e => setNewPaper({...newPaper, authors: e.target.value})} />
             </div>
-            <div className="flex items-end justify-end gap-3">
+            <div className="form-actions">
               <button type="button" onClick={() => setShowAdd(false)} className="btn btn-outline px-8 rounded-2xl font-bold">Discard</button>
               <button type="submit" className="btn btn-primary px-10 rounded-2xl">Create Manuscript</button>
             </div>
@@ -90,13 +94,13 @@ const Papers = () => {
       )}
 
       {!showAdd && (
-        <div className="flex flex-wrap items-center justify-between gap-6 p-4 glass rounded-3xl border-white/20 shadow-sm mb-6">
-          <div className="flex items-center gap-3 bg-muted/30 px-6 py-3 rounded-2xl border border-border w-full max-w-xl transition-all focus-within:border-primary/50">
+        <div className="search-filter-bar">
+          <div className="search-input-wrapper">
             <Search size={22} className="text-muted-foreground" />
             <input 
               type="text" 
               placeholder="Filter your papers..." 
-              className="bg-transparent border-none outline-none w-full text-base font-medium"
+              className="search-input"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -105,53 +109,53 @@ const Papers = () => {
       )}
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {[1,2,3,4].map(i => <div key={i} className="card h-48 animate-pulse bg-muted/50 rounded-3xl" />)}
+        <div className="paper-grid">
+          {[1,2,3,4].map(i => <div key={i} className="card h-48 animate-pulse bg-muted-50 rounded-3xl" />)}
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="paper-grid">
           {filteredPapers.map(paper => (
-            <div key={paper.id} className="card flex flex-col gap-6 group hover:border-primary/30 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                 <button onClick={() => handleDelete(paper.id)} className="p-2 text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-all rounded-xl">
+            <div key={paper.id} className="card paper-card group">
+              <div className="paper-card-delete">
+                 <button onClick={() => handleDelete(paper.id)} className="p-2 text-muted-foreground hover:text-danger hover:bg-danger/10 transition-all rounded-xl">
                   <Trash2 size={18} />
                 </button>
               </div>
-              <div className="flex flex-col gap-4">
-                <div className="flex items-start gap-4">
-                  <div className="bg-primary/5 p-4 rounded-2xl text-primary border border-primary/10">
+              <div className="paper-header">
+                <div className="paper-title-row">
+                  <div className="paper-icon">
                     <FileText size={24} />
                   </div>
-                  <div className="flex flex-col gap-1 pr-10">
-                    <h3 className="text-xl font-bold leading-tight group-hover:text-primary transition-colors cursor-pointer">{paper.title}</h3>
-                    <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground">
+                  <div className="flex-col gap-1">
+                    <h3 className="paper-title cursor-pointer">{paper.title}</h3>
+                    <div className="paper-authors">
                       <User size={14} />
                       <span>{paper.authors || 'Lead Researcher'}</span>
                     </div>
                   </div>
                 </div>
-                <p className="text-muted-foreground text-sm line-clamp-3 leading-relaxed font-medium">{paper.abstractContent || 'No abstract defined for this project.'}</p>
+                <p className="paper-abstract">{paper.abstractContent || 'No abstract defined for this project.'}</p>
               </div>
-              <div className="mt-auto flex items-center justify-between pt-4 border-t border-border/60">
-                <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest bg-muted px-3 py-1 rounded-full">
+              <div className="paper-footer">
+                <div className="paper-status-badge">
                    Status: Active
                 </div>
-                <button className="flex items-center gap-1 text-xs font-bold text-primary group-hover:translate-x-1 transition-transform">
+                <button className="view-detail-btn">
                   View Detail <ChevronRight size={14} />
                 </button>
               </div>
             </div>
           ))}
           {filteredPapers.length === 0 && !showAdd && (
-            <div className="col-span-full py-32 flex flex-col items-center justify-center gap-6 glass rounded-3xl border-dashed border-2 border-border border-white/20">
-              <div className="p-8 bg-muted/40 rounded-full text-muted-foreground/30">
+            <div className="empty-state" style={{gridColumn: '1 / -1'}}>
+              <div className="empty-state-icon">
                 <FileText size={80} strokeWidth={1} />
               </div>
-              <div className="text-center">
-                <h3 className="text-3xl font-bold">No papers found</h3>
-                <p className="text-muted-foreground text-lg font-medium max-w-sm mx-auto mt-2">Start your research journey by logging your first paper project.</p>
+              <div className="empty-state-text">
+                <h3 className="empty-state-title">No papers found</h3>
+                <p className="empty-state-description">Start your research journey by logging your first paper project.</p>
               </div>
-              <button onClick={() => setShowAdd(true)} className="btn btn-primary px-10 rounded-full text-lg mt-4">Add Your First Paper</button>
+              <button onClick={() => setShowAdd(true)} className="btn btn-primary px-10 rounded-full text-lg mt-4 shadow-xl">Add Your First Paper</button>
             </div>
           )}
         </div>

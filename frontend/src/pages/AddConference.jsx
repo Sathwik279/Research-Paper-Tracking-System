@@ -1,27 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { conferenceApi } from '../api';
-import { ArrowLeft, Save, Globe, Calendar, Info, Bot, AlertCircle, FileDigit } from 'lucide-react';
+import { ArrowLeft, Globe, Calendar, Bot, AlertTriangle, FileText, Info } from 'lucide-react';
+import './AddConference.css';
+import '../styles/Forms.css';
 
 const AddConference = () => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     url: '',
+    ranking: '',
     submissionDeadline: '',
     notificationDate: '',
-    eventDate: '',
-    fees: '',
-    plagiarismPolicy: '',
     aiPolicy: '',
-    pageLimit: '',
-    ranking: ''
+    plagiarismPolicy: '',
+    fees: '',
+    pageLimit: ''
   });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,89 +30,85 @@ const AddConference = () => {
   };
 
   return (
-    <div className="container mx-auto px-6 py-28 max-w-5xl animate-enter">
-      <button onClick={() => navigate('/')} className="flex items-center gap-2 text-muted-foreground hover:text-primary mb-8 transition-all font-bold uppercase tracking-widest text-xs">
+    <div className="container py-28 max-w-5xl animate-enter">
+      <button onClick={() => navigate('/')} className="back-button">
         <ArrowLeft size={18} />
         <span>Back to Directory</span>
       </button>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-10 glass p-10 rounded-[2.5rem] shadow-2xl border-white/40">
-        <header className="flex flex-col gap-3">
+      <form onSubmit={handleSubmit} className="form-container">
+        <header className="form-header">
           <div className="badge badge-primary w-fit">Registry</div>
-          <h2 className="text-4xl font-extrabold tracking-tight">Register <span className="text-primary">Venue</span></h2>
-          <p className="text-muted-foreground text-lg font-medium">Log a conference venue to your personalized tracker to monitor its specific constraints and deadlines.</p>
+          <h2 className="form-title">Register <span className="text-primary">Venue</span></h2>
+          <p className="form-subtitle text-lg">Log a conference venue to your personalized tracker to monitor its specific constraints and deadlines.</p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Conference Designation *</label>
-            <input required name="name" value={formData.name} onChange={handleChange} className="input-field text-lg font-bold" placeholder="E.g. NeurIPS 2024" />
-          </div>
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
-              <Globe size={14} className="text-primary" /> Official URL
+        <div className="form-grid">
+          <div className="form-group md:col-span-2">
+            <label className="form-label form-label-with-icon">
+              <Globe size={14} className="text-primary" /> Conference Name
             </label>
-            <input name="url" value={formData.url} onChange={handleChange} className="input-field font-medium" placeholder="https://..." />
+            <input required placeholder="E.g., International Conference on Machine Learning (ICML)" className="input-field text-lg font-semibold" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} />
           </div>
-
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
-              <Calendar size={14} className="text-primary" /> Submission Threshold
-            </label>
-            <input type="date" name="submissionDeadline" value={formData.submissionDeadline} onChange={handleChange} className="input-field font-bold" />
-          </div>
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
-              <Calendar size={14} className="text-primary" /> Notification Date
-            </label>
-            <input type="date" name="notificationDate" value={formData.notificationDate} onChange={handleChange} className="input-field font-bold" />
-          </div>
-
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Ranking / Tier</label>
-            <input name="ranking" value={formData.ranking} onChange={handleChange} className="input-field font-bold uppercase" placeholder="CORE A*, Q1..." />
-          </div>
-          <div className="flex flex-col gap-3">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1">Registration Fees</label>
-            <input name="fees" value={formData.fees} onChange={handleChange} className="input-field font-bold" placeholder="$..." />
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-8 border-t border-dashed border-border pt-10">
-          <h3 className="text-2xl font-bold flex items-center gap-3">
-            <div className="bg-primary/10 p-2 rounded-xl text-primary"><Info size={22} /></div>
-            Researcher Constraints
-          </h3>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="flex flex-col gap-3">
-              <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
-                <Bot size={14} className="text-primary" /> Gen-AI Policy
-              </label>
-              <textarea name="aiPolicy" value={formData.aiPolicy} onChange={handleChange} className="input-field h-32 resize-none leading-relaxed" placeholder="Summarize the venue's policy on generative AI usage..." />
-            </div>
-            <div className="flex flex-col gap-3">
-              <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
-                <AlertCircle size={14} className="text-orange-500" /> Plagiarism Checks
-              </label>
-              <textarea name="plagiarismPolicy" value={formData.plagiarismPolicy} onChange={handleChange} className="input-field h-32 resize-none leading-relaxed" placeholder="Detail any similarity index thresholds or policy specifics..." />
+          <div className="form-group">
+            <label className="form-label">Website URL</label>
+            <input type="url" placeholder="https://conference-site.org" className="input-field" value={formData.url} onChange={e => setFormData({...formData, url: e.target.value})} />
+          </div>
+
+          <div className="form-group">
+            <label className="form-label">Ranking / Tier</label>
+            <input placeholder="E.g., CORE A*, Q1, Top-tier" className="input-field" value={formData.ranking} onChange={e => setFormData({...formData, ranking: e.target.value})} />
+          </div>
+
+          <div className="form-section-divider md:col-span-2">
+            <h4 className="form-section-title">
+              <Calendar size={18} className="form-section-icon" /> Critical Timelines
+            </h4>
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="form-label">Submission Deadline</label>
+                <input type="date" className="input-field" value={formData.submissionDeadline} onChange={e => setFormData({...formData, submissionDeadline: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Notification Date</label>
+                <input type="date" className="input-field" value={formData.notificationDate} onChange={e => setFormData({...formData, notificationDate: e.target.value})} />
+              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-3 max-w-sm">
-            <label className="text-xs font-bold uppercase tracking-widest text-muted-foreground ml-1 flex items-center gap-2">
-              <FileDigit size={14} className="text-primary" /> Maximum Page Count
-            </label>
-            <input type="number" name="pageLimit" value={formData.pageLimit} onChange={handleChange} className="input-field font-bold" placeholder="E.g. 10" />
+          <div className="form-section-divider md:col-span-2">
+            <h4 className="form-section-title">
+              <Info size={18} className="form-section-icon" /> Constraints & Policies
+            </h4>
+            <div className="form-grid">
+              <div className="form-group">
+                <label className="form-label form-label-with-icon">
+                  <Bot size={14} className="text-primary" /> AI Policy
+                </label>
+                <textarea placeholder="Specify rules regarding LLM and AI tool usage..." className="input-field h-24 resize-none" value={formData.aiPolicy} onChange={e => setFormData({...formData, aiPolicy: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label className="form-label form-label-with-icon">
+                  <AlertTriangle size={14} className="text-orange-500" /> Plagiarism Rules
+                </label>
+                <textarea placeholder="Note cross-submission or self-plagiarism constraints..." className="input-field h-24 resize-none" value={formData.plagiarismPolicy} onChange={e => setFormData({...formData, plagiarismPolicy: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Registration Fees</label>
+                <input placeholder="E.g., $450 (Standard), $200 (Student)" className="input-field" value={formData.fees} onChange={e => setFormData({...formData, fees: e.target.value})} />
+              </div>
+              <div className="form-group">
+                <label className="form-label">Page Limit</label>
+                <input type="number" placeholder="Total allowed pages" className="input-field" value={formData.pageLimit} onChange={e => setFormData({...formData, pageLimit: e.target.value})} />
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-5 pt-4">
-          <button type="button" onClick={() => navigate('/')} className="btn btn-outline px-10 h-14 rounded-2xl font-extrabold text-muted-foreground hover:text-foreground">Discard Changes</button>
-          <button type="submit" className="btn btn-primary px-12 h-14 rounded-2xl text-lg shadow-xl hover:scale-[1.02]">
-            <Save size={24} />
-            <span>Save Venue</span>
-          </button>
+        <div className="form-actions">
+          <button type="button" onClick={() => navigate('/')} className="btn btn-outline px-10 rounded-2xl h-14 font-bold">Cancel</button>
+          <button type="submit" className="btn btn-primary px-12 rounded-2xl h-14 shadow-xl">Complete Registration</button>
         </div>
       </form>
     </div>

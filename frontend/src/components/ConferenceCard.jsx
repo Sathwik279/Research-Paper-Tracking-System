@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, Globe, FileText, Bot, AlertTriangle, ExternalLink } from 'lucide-react';
+import './ConferenceCard.css';
 
 const ConferenceCard = ({ conference }) => {
   const getDaysLeft = (date) => {
@@ -20,11 +21,11 @@ const ConferenceCard = ({ conference }) => {
   const status = getDeadlineStatus(daysLeft);
 
   return (
-    <div className="card flex flex-col gap-6 animate-enter hover:bg-muted/10">
-      <div className="flex justify-between items-start gap-4">
-        <div className="flex flex-col gap-2">
+    <div className="card card-conference animate-enter">
+      <div className="card-header">
+        <div className="card-title-section">
           <span className="badge badge-primary w-fit">{conference.ranking || 'Conference'}</span>
-          <h2 className="text-xl font-bold tracking-tight leading-tight">{conference.name}</h2>
+          <h2 className="card-title">{conference.name}</h2>
         </div>
         <div className={`badge ${status.class} whitespace-nowrap`}>
           {status.label}
@@ -32,15 +33,15 @@ const ConferenceCard = ({ conference }) => {
       </div>
 
       <div className="flex flex-col gap-3">
-        <div className="flex items-center justify-between text-sm p-3 bg-muted/40 rounded-xl">
-          <div className="flex items-center gap-2 font-semibold">
+        <div className="deadline-row">
+          <div className="deadline-info">
             <Calendar size={16} className="text-primary" />
             <span>Submission</span>
           </div>
           <span className="text-muted-foreground">{conference.submissionDeadline || 'TBA'}</span>
         </div>
-        <div className="flex items-center justify-between text-sm p-3 bg-muted/40 rounded-xl">
-          <div className="flex items-center gap-2 font-semibold">
+        <div className="deadline-row">
+          <div className="deadline-info">
             <Calendar size={16} className="text-primary" />
             <span>Notification</span>
           </div>
@@ -48,19 +49,19 @@ const ConferenceCard = ({ conference }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-dashed border-border">
-        <div className="group relative flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 rounded-lg text-xs font-bold cursor-help transition-all hover:bg-primary/10 hover:text-primary">
+      <div className="policy-tags">
+        <div className="policy-tag group">
           <Bot size={14} />
           <span>AI POLICY</span>
-          <div className="absolute bottom-full left-0 mb-3 w-56 p-3 glass rounded-xl hidden group-hover:block z-20 shadow-xl border-primary/20">
-            <p className="text-[11px] leading-relaxed font-medium">{conference.aiPolicy || 'Policy not specified.'}</p>
+          <div className="policy-tooltip glass shadow-xl">
+            <p className="tooltip-text">{conference.aiPolicy || 'Policy not specified.'}</p>
           </div>
         </div>
-        <div className="group relative flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 rounded-lg text-xs font-bold cursor-help transition-all hover:bg-orange-500/10 hover:text-orange-600">
+        <div className="policy-tag plagiarism group">
           <AlertTriangle size={14} />
           <span>PLAGIARISM</span>
-          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-56 p-3 glass rounded-xl hidden group-hover:block z-20 shadow-xl border-orange-500/20">
-            <p className="text-[11px] leading-relaxed font-medium">{conference.plagiarismPolicy || 'Policy not specified.'}</p>
+          <div className="policy-tooltip glass shadow-xl" style={{left: '50%', transform: 'translateX(-50%)'}}>
+            <p className="tooltip-text">{conference.plagiarismPolicy || 'Policy not specified.'}</p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 px-3 py-1.5 bg-muted/50 rounded-lg text-xs font-bold text-muted-foreground ml-auto">
@@ -69,7 +70,7 @@ const ConferenceCard = ({ conference }) => {
         </div>
       </div>
 
-      <div className="flex items-center gap-3 mt-auto">
+      <div className="card-footer">
         <a 
           href={conference.url} 
           target="_blank" 
@@ -79,9 +80,9 @@ const ConferenceCard = ({ conference }) => {
           <ExternalLink size={14} />
           View Website
         </a>
-        <div className="text-right px-2">
-          <span className="block text-[10px] text-muted-foreground font-bold uppercase">FEES</span>
-          <span className="text-sm font-bold text-foreground">{conference.fees || 'TBA'}</span>
+        <div className="fees-display">
+          <span className="fees-label">FEES</span>
+          <span className="fees-amount">{conference.fees || 'TBA'}</span>
         </div>
       </div>
     </div>
